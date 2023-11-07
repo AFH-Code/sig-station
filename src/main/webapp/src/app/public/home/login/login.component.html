@@ -1,0 +1,77 @@
+<!-- div class="container pt-5"  style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); height: 100vh;">
+    <p>login works .12</p>
+</div -->
+
+<div class="form-bg" style="height: calc(100vh - 80px); display: flex;
+align-items: center;
+vertical-align: middle; min-width: 100%; table-layout: fixed; background: #ddd;">
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-4 col-md-4 offset-sm-3 col-sm-6">
+                <div class="form-container">
+                    <h3 class="title"><strong>SIG</strong> - Mon compte</h3>
+
+                    <form (ngSubmit)="f.form.valid && onSubmit(f)"
+                        #f="ngForm"
+                        novalidate class="form-horizontal" >
+
+                            <div class="form-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <div class="form-group">
+                                <span class="input-icon"><i class="bi bi-envelope"></i></span>
+
+                                <input type="email" name="username" id="username" class="form-control" placeholder="Adresse email"
+                                [(ngModel)]="form.username"
+                                required
+                                minlength="2"
+                                maxlength="150"
+                                #username="ngModel"
+                                />
+                                <div
+                                    class="alert alert-danger"
+                                    role="alert"
+                                    *ngIf="f.submitted && username.invalid">
+                                    Username is required!
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="input-icon"><i class="bi bi-lock"></i></span>
+
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Mot de passe"
+                                [(ngModel)]="form.password"
+                                required
+                                minlength="2"
+                                maxlength="150"
+                                #password="ngModel"
+                                />
+
+                                <span class="forgot"><a href="javascript:void()">Mot de passe oublié ?</a></span>
+                            </div>
+
+                            <button class="btn signin" [disabled]="f.invalid" >Login</button>
+            
+                        </form>
+
+
+                    <!-- form class="form-horizontal">
+                        <div class="form-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon"><i class="bi bi-envelope"></i></span>
+                            <input type="email" class="form-control" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <span class="input-icon"><i class="bi bi-lock"></i></span>
+                            <input type="password" class="form-control" placeholder="Password">
+                            <span class="forgot"><a href="">Forgot Password?</a></span>
+                        </div>
+                        <a class="btn signin" routerLink="/dashboard/map/station">Login</a>
+                    </form -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

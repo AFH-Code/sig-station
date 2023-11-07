@@ -1,0 +1,176 @@
+<!-- new group modal -->
+<div class="modal fade" id="newEvent" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+      <div class="modal-content">
+          <div class="modal-header modaloc-header">
+              <h5 class="modal-title">
+                  {{ typeFormOperation }}
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #333;">
+                  <i class="bi bi-x"></i>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form (ngSubmit)="onSubmit(f)"
+              #f="ngForm"
+              novalidate>
+            
+                <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && firstName.invalid">
+                        <div *ngIf="form.firstName.errors.required">firstName is required</div>
+                        <div *ngIf="form.firstName.errors.minlength">
+                            firstName must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.firstName.errors.maxlength">  
+                            firstName must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="firstName" class="col-form-label">Prenom</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Prenom"
+                        [(ngModel)]="form.firstName"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #firstName="ngModel"
+                        />
+                    </div>
+
+                </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && lastName.invalid">
+                        <div *ngIf="form.lastName.errors.required">lastName is required</div>
+                        <div *ngIf="form.lastName.errors.minlength">
+                            lastName must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.lastName.errors.maxlength">  
+                            lastName must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="lastName" class="col-form-label">Nom</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Nom"
+                        [(ngModel)]="form.lastName"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #lastName="ngModel"
+                        />
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+                        <div *ngIf="form.email.errors.required">email is required</div>
+                        <div *ngIf="form.email.errors.minlength">
+                            email must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.email.errors.maxlength">  
+                            email must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="email" class="col-form-label">Email</label>
+                    <div class="form-group mb-2">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email"
+                        [(ngModel)]="form.email"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #email="ngModel"
+                        />
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+                    <label for="role" class="col-form-label">Rôle</label>
+                    <ng-select [items]="roleObjects" 
+                              bindLabel="name" 
+                              bindValue="name"
+                              [(ngModel)]="form.role"
+                              #role="ngModel"
+                              required
+                              name="role"
+                              (change)="onChangeObj($event)">
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group" *ngIf="selectedRoleObj.name == 'ADMIN_ORG' || selectedRoleObj.name == 'SUPER_ADMIN_ORG'">
+                    <label for="group_name" class="col-form-label">Organisation</label>
+                    <div class="input-group">
+                      <div class="ng-autocomplete">
+                        <ng-autocomplete 
+                          [data]="organisations"
+                          [searchKeyword]="keyword"
+                          placeholder="Sélectionnez une organisation"
+                          (selected)='selectEvent($event)'
+                          (inputChanged)='onChangeSearch($event)'
+                          [(ngModel)]="form.organisationUser"
+                          #organisationUser="ngModel"
+                          name="organisationUser"
+                          (inputFocused)='onFocused($event)'
+                          [itemTemplate]="itemTemplate"
+                          [notFoundTemplate]="notFoundTemplate">                                 
+                        </ng-autocomplete>
+                        
+                        <ng-template #itemTemplate let-item>
+                          <a [innerHTML]="item.ownerName"></a>
+                        </ng-template>
+                        
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && password.invalid">
+                        <div *ngIf="form.password.errors.required">password is required</div>
+                        <div *ngIf="form.password.errors.minlength">
+                            password must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.password.errors.maxlength">  
+                            password must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="password" class="col-form-label">Mot de passe</label>
+                    <div class="input-group mb-2">
+                        <input [type]="typePassInput" name="password" id="password" class="form-control" placeholder="Mot de passe"
+                        [(ngModel)]="form.password"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #password="ngModel"
+                        />
+                        <div class="input-group-append">
+                          <button type="button" class="input-group-text" id="basic-addon2" (click)="updateTypeInput()">
+                            <i class="bi bi-eye"></i>
+                          </button>
+                        </div>
+                    </div>
+
+                  </div>
+  
+                <div class="form-group mt-4">
+                    <button class="btn-principal" [disabled]="f.invalid" style="color: #fff!important; min-width: 100%;">
+                        Publier
+                    </button>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button class="close btn-messenger text-center" data-dismiss="modal" aria-label="Close" style="min-width: 100%; border: 1px solid #3D414B;">
+                        Quitter
+                    </button>
+                </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>

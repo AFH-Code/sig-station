@@ -1,0 +1,60 @@
+<div [id]="id" class="sppmodal-container">
+  <div class="sppmodal-background">
+    <div class="sppmodal" style="height: 350px">
+      <div class="row">
+        <div class="col-md-12">
+          <a
+            href="javascript:void(0)"
+            (click)="isConfirm ? '' : closeModal()"
+            class="float-end close-sppmodal-confirm"
+            style="float: right;"
+          >
+            <img src="assets/images/close.svg" class="img-size-15" />
+          </a>
+        </div>
+        <div class="col-md-8 offset-md-2">
+          <div class="text-center">
+            <img
+              src="assets/images/emblemdefault_1034528.png"
+              style="height: 70px; margin-bottom: 15px"
+            />
+          </div>
+
+          <span class="dash-interface-descript-pro">{{ message }}</span>
+
+          <div class="text-center pb-5" style="margin-top: 20px">
+            <div>
+              <a
+                (click)="isConfirm ? '' : closeModal()"
+                href="javascript:void(0)"
+                class="call-action-btn1 btn-block"
+                style="border-radius: 0px"
+              >
+                {{ btnCancel }}
+              </a>
+            </div>
+
+            <div style="margin-top: 15px">
+              <a
+                (click)="confirm()"
+                href="javascript:void(0)"
+                class="call-action-btn1 btn-block"
+                style="border-radius: 0px; background: #ff7900; color: #fff"
+              >
+                {{ isConfirm ? "" : btnConfirm }}
+                <div class="text-center" *ngIf="isConfirm">
+                  <div
+                    class="spinner-border spinner-border-sm text-ce"
+                    role="status"
+                  >
+                    <span class="sr-only">Recharge en cour ...</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

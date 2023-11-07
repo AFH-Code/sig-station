@@ -1,0 +1,203 @@
+
+<!-- new group modal -->
+<div class="modal fade" id="newEvent" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+      <div class="modal-content">
+          <div class="modal-header modaloc-header">
+              <h5 class="modal-title">
+                  {{ typeFormOperation }}
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #333;">
+                  <i class="bi bi-x"></i>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form name="form"
+              (ngSubmit)="onSubmit(f)"
+              #f="ngForm"
+              novalidate>
+                  <div class="form-group">
+                      
+                      <div class="alert-danger" *ngIf="f.submitted && antennaName.invalid">
+                        <div *ngIf="form.antennaName.errors.required">antennaName is required</div>
+                        <div *ngIf="form.antennaName.errors.minlength">
+                            antennaName must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.antennaName.errors.maxlength">  
+                            antennaName must be at most 150 characters
+                        </div>
+                      </div>
+                      <label for="antennaName" class="col-form-label">Nom de la station</label>
+                      <div class="form-group mb-4">
+                        <input type="text" name="antennaName" id="antennaName" class="form-control" placeholder="Nom de la station"
+                        [(ngModel)]="form.antennaName"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #antennaName="ngModel"
+                        />
+                      </div>
+                      
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="group_name" class="col-form-label">Station associée</label>
+                    <div class="input-group">
+                      <div class="ng-autocomplete">
+                        <ng-autocomplete 
+                          [data]="stations"
+                          [searchKeyword]="keyword"
+                          placeholder="Sélectionnez une station"
+                          (selected)='selectEvent($event)'
+                          (inputChanged)='onChangeSearch($event)'
+                          [(ngModel)]="form.stationAntenne"
+                          #stationAntenne="ngModel"
+                          name="stationAntenne"
+                          required
+                          (inputFocused)='onFocused($event)'
+                          [itemTemplate]="itemTemplate"
+                          [notFoundTemplate]="notFoundTemplate">                                 
+                        </ng-autocomplete>
+                        
+                        <ng-template #itemTemplate let-item>
+                          <a [innerHTML]="item.stationName + ' - ' + item.arrondissement.name_3"></a>
+                        </ng-template>
+                        
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="antennaType" class="col-form-label">Type de station</label>
+                    <ng-select [items]="deviceObjects" 
+                              bindLabel="name" 
+                              bindValue="id"
+                              [(ngModel)]="form.antennaType"
+                              #antennaType="ngModel"
+                              required
+                              name="antennaType"
+                              (change)="onChangeObj($event)">
+                    </ng-select>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="alert-danger" *ngIf="f.submitted && azimutRadiation.invalid">
+                        <div *ngIf="form.azimutRadiation.errors.required">azimutRadiation is required</div>
+                      </div>
+                      <div class="alert-danger" *ngIf="f.submitted && elevation.invalid">
+                        <div *ngIf="form.elevation.errors.required">elevation is required</div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Azimut Radiation</label>
+                        <div class="input-group">
+
+                            <input type="text" name="azimutRadiation" id="azimutRadiation" class="form-control" placeholder="Azimut Radiation"
+                            [(ngModel)]="form.azimutRadiation"
+                            required
+                            #azimutRadiation="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Elevation</label>
+                        <div class="input-group">
+
+                            <input type="text" name="elevation" id="elevation" class="form-control" placeholder="Elevation"
+                            [(ngModel)]="form.elevation"
+                            required
+                            #elevation="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                      
+                    <div class="alert-danger" *ngIf="f.submitted && antennaHeigth.invalid">
+                      <div *ngIf="form.antennaHeigth.errors.required">antennaHeigth is required</div>
+                      <div *ngIf="form.antennaHeigth.errors.minlength">
+                        antennaHeigth must be at least 2 characters
+                      </div>
+                      <div *ngIf="form.antennaHeigth.errors.maxlength">  
+                        antennaHeigth must be at most 150 characters
+                      </div>
+                    </div>
+                    <label for="antennaHeigth" class="col-form-label">Hauteur de l'antenne (m)</label>
+                    <div class="form-group mb-4">
+                      <input type="text" name="antennaHeigth" id="antennaHeigth" class="form-control" placeholder="Hauteur de l'antenne (m)"
+                      [(ngModel)]="form.antennaHeigth"
+                      required
+                      minlength="2"
+                      maxlength="150"
+                      #antennaHeigth="ngModel"
+                      />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="alert-danger" *ngIf="f.submitted && polarization.invalid">
+                        <div *ngIf="form.polarization.errors.required">polarization is required</div>
+                      </div>
+                      <div class="alert-danger" *ngIf="f.submitted && polarization.invalid">
+                        <div *ngIf="form.polarization.errors.required">polarization is required</div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Polarization</label>
+                        <div class="input-group">
+
+                            <input type="text" name="polarization" id="polarization" class="form-control" placeholder="Polarization"
+                            [(ngModel)]="form.polarization"
+                            required
+                            #polarization="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Antenna Gain</label>
+                        <div class="input-group">
+
+                            <input type="text" name="antennaGain" id="antennaGain" class="form-control" placeholder="antennaGain"
+                            [(ngModel)]="form.antennaGain"
+                            required
+                            #antennaGain="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="form-group mt-4">
+                      <button class="btn-principal" [disabled]="f.invalid" style="color: #fff!important; min-width: 100%;">
+                          Publier
+                      </button>
+                  </div>
+  
+                  <div class="form-group mt-3">
+                      <button class="close btn-messenger text-center" data-dismiss="modal" aria-label="Close" style="min-width: 100%; border: 1px solid #3D414B;">
+                          Quitter
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>

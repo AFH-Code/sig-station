@@ -1,0 +1,79 @@
+<div class="" style="padding: 15px 15px 0px 15px;">
+  <form name="form"
+      (ngSubmit)="onSubmit(f)"
+      #f="ngForm"
+      novalidate>
+      <div class="input-group">
+        <input type="text" class="form-control" name="keyword" placeholder="Rechercher une station" aria-label="Rechercher une station" aria-describedby="basic-addon2"
+        [(ngModel)]="form.keyword"
+                          required
+                          minlength="1"
+                          maxlength="25"
+                          #keyword="ngModel">
+        <div class="input-group-append">
+          <button class="input-group-text" id="basic-addon2">
+            <span class="bi bi-search"></span>
+          </button>
+        </div>
+      </div>
+  </form>
+    <div class="mt-2">
+      {{ currentObjet_detail }} <span class="badge badge-info">{{ countItemStation }}</span>
+    </div>
+</div>
+
+<div class="mt-2" style="padding: 0px 7px 0px 15px;">
+
+  <ng-multiselect-dropdown
+    [placeholder]="'custom placeholder'"
+    [settings]="dropdownSettings"
+    [data]="dropdownList"
+    [(ngModel)]="selectedItems"
+    (onSelect)="onItemSelect($event)"
+    (onSelectAll)="onSelectAll($event)"
+    (ngModelChange)="closeDropdown($event)"
+  >
+  </ng-multiselect-dropdown>
+
+  <div class="list-group list-group-flush">
+    <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="500"
+      (scrolled)="onScroll()"
+      [scrollWindow]="false"
+    >
+    <div class="list-group list-group-flush">
+      <ng-container *ngFor="let station of stations">
+      <a class="list-group-item list-group-item-action flex-column align-items-start" (click)="openMapPoint(station.id)">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">
+            <span [innerHtml]="
+              station.stationName | highlighter : 'e' : stations
+              ">
+            </span>
+          </h5>
+          
+        </div>
+        <p class="mb-1">Rayon: {{ station.radiusOfService }}, type: {{ station.typeStation }}</p>
+        <small>{{ station.type }}</small>
+      </a>
+    </ng-container>
+    </div>
+
+    <div class="list-group list-group-flush" *ngIf="isLoading">
+        <div class="content-line" style="width: 100%;">
+          <div class="line"></div>
+        </div>
+        <div class="content-line" style="width: 100%;">
+          <div class="line"></div>
+        </div>
+        <div class="content-line" style="width: 100%;">
+          <div class="line"></div>
+        </div>
+    </div>
+    </div>
+  </div>
+  
+</div>

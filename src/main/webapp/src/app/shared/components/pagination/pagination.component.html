@@ -1,0 +1,77 @@
+<div class="row mt-5" *ngIf="!type">
+  <div class="col-md-6">
+    {{ calculNumberPage() }}
+  </div>
+
+  <div class="col-md-6 text-right">
+    <div class="frame float-right">
+      <div class="btn-bar">
+        <div class="buttons">
+          <pagination-template
+            #p="paginationApi"
+            [id]="config.id"
+            (pageChange)="onPageChange($event)"
+          >
+            <div class="custom-pagination">
+              <div
+                class="btn scroll disabled"
+                [class.disabled]="p.isFirstPage()"
+                (click)="p.previous()"
+              >
+                <span>
+                  <svg
+                    class="icon"
+                    width="16.101"
+                    height="15.903"
+                    viewBox="0 0 16.101 15.903"
+                  >
+                    <path
+                      d="M-80,22l16.1-7.876L-66.968,22l3.069,8.027Z"
+                      transform="translate(80 -14.124)"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+              <ng-container *ngFor="let page of p.pages">
+                <div
+                  class="btn"
+                  [class.active]="p.getCurrent() === page.value"
+                  (click)="
+                    p.getCurrent() !== page.value
+                      ? p.setCurrent(page.value)
+                      : ''
+                  "
+                >
+                  <span>{{ page.label }}</span>
+                </div>
+              </ng-container>
+
+              <div
+                class="btn scroll"
+                page="next"
+                [class.disabled]="
+                  p.isLastPage() || config.itemsPerPage > config.totalItems
+                "(click)="p.next()"
+              >
+                <span>
+                  <svg
+                    class="icon"
+                    width="16.101"
+                    height="15.903"
+                    viewBox="0 0 16.101 15.903"
+                  >
+                    <path
+                      d="M-80,22l16.1-7.876L-66.968,22l3.069,8.027Z"
+                      transform="translate(-63.899 30.027) rotate(180)"
+                    ></path>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </pagination-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

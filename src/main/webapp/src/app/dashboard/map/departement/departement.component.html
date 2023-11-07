@@ -1,0 +1,15 @@
+
+<input id="sub-group-{{ departement.id }}" type="checkbox" hidden />
+<label for="sub-group-{{ departement.id }}" (click)="loadArrodissementPanel()"><span class="bi bi-chevron-compact-right"></span> {{ departement.name_2 }} </label>
+<ul class="sub-group-list">
+    <li><a (click)="openSecondPanel(departement)" [routerLink]="['/dashboard/map','stations','departement', departement.id]" [queryParams]="{page: 1, tail: 20}">Stations {{ departement.name_2 }}</a></li>
+
+    <li *ngFor='let arrondissement of arrondissements; let k = index'>
+        <a  (click)="openSecondPanel(arrondissement, 'arrondissement')"  [routerLink]="['/dashboard/map','stations','arrondissement', arrondissement.id]" [queryParams]="{page: 1, tail: 20}">{{ arrondissement.name_3 }}</a>
+    </li>
+    <li *ngIf="isLoadingDepartement == false">
+        <div class="content-line" style="width: 100%;">
+          <div class="line"></div>
+        </div>
+    </li>
+</ul>

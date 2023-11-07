@@ -1,0 +1,222 @@
+
+<div class="wrapper-admin">
+    <div class="container">
+        
+        <nav aria-label="breadcrumb">
+            <a href="#!" data-toggle="modal" (click)="openNewAntenneModal()" class="float-right" style="display: inline-block; margin-left: 15px; margin-top: 10px;">
+                <span class="bi bi-plus-circle"></span> Ajouter
+            </a>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Antennes</li>
+            </ol>
+        </nav>
+
+        <div class="row mt-3">
+            <div class="col-md-5">
+                <form name="form"
+                    (ngSubmit)="onSubmit(f)"
+                    #f="ngForm"
+                    novalidate>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <input type="text" name="keyword" class="form-control" id="" placeholder="Recherchez une station"
+                                [(ngModel)]="form.keyword"
+                                required
+                                minlength="1"
+                                maxlength="25"
+                                #keyword="ngModel" style="height: 40px;">
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <button class="btn-empty-dash">
+                                <span class="bi bi-search"></span>
+                                Rechercher
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-3 offset-md-4">
+                <div style="text-align: right;">
+                    <a href="javascript::void(0)" (click)="refesh()" style="margin: 5px 7px 0px 0px; display: inline-block;"><img src="assets/images/repeat.png" alt="" style="height: 20px;"></a>
+
+                    <div class="btn-group dropdown-prfl" role="group" style="float: right;">
+                        <a href="javascript::void(0)" id="btnGroupDrop1" class="btn cta-dash-btn">
+                            <img src="assets/images/filtre.png" alt="" style="height: 10px; margin-right: 5px;">
+                            Classer par
+                        </a>
+                        <div class="dropdown-content-prfl resize-dorpmobile3" style="margin-left: -77px!important;">
+                            <a href="javascript::void(0)" class="dropdown-item">
+                                Nom croissant
+                            </a>
+                            <a href="javascript::void(0)" class="dropdown-item open-confirm-modal">
+                                Nom décroissant
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="subtitle-page-stat mb-3">
+            Tout ({{ countItemAntennes }}) 
+        </div>
+
+        <div class="card-dash-csu">
+            <div class="table-responsive-vertical shadow-z-1" style="box-shadow:0px 0px 2px rgba(0,0,0,0.0005);">
+              <table id="table" class="table table-hover table-mc-light-blue" style="margin: 0px 0px 15px 0px;">
+                <thead>
+                    <tr>
+                    <th>
+                        NOM COMPLET
+                    </th>
+                    <th>Station</th>
+                    <th>AzimutRadiation</th>
+                    <th>Elevation</th>
+                    <th>AntennaType</th>
+                    <th>AntennaHeigth</th>
+                    <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let antenne of antennes|paginate : config;">
+                    <tr >
+                    <td data-title="NOM COMPLET">
+                        {{ antenne.antennaName }}
+                    </td>
+                    <td data-title="Station">
+                        {{ antenne.principal_station.stationName }} {{ antenne.principal_station.arrondissement.name_3 }}
+                    </td>
+                    <td data-title="AzimutRadiation">{{ antenne.azimutRadiation }}</td>
+                    <td data-title="Elevation">{{ antenne.elevation  }}</td>
+                    <td data-title="AntennaType">
+                        {{ antenne.antennaType }}
+                    </td>
+                    <td data-title="AntennaHeigth">
+                        {{ antenne.antennaHeigth }}
+                    </td>
+                    <td data-title="Action" style="white-space: nowrap;">
+                        <div class="btn-group dropdown-prfl" role="group" style="float: right;">
+                            <a href="javascript:void(0)" id="btnGroupDrop1" class="action-tb-link coustom-btn-dropdown-table dpdw-link">
+                                <svg preserveAspectRatio="none" width="15" viewBox="0 0 34 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Slider Horizontal Copy</title><desc>Created with Sketch.</desc> <defs></defs><g id="s-Image_48-Page-1" stroke="none" stroke-fill="none" fill-rule="evenodd"><g id="s-Image_48-Components" transform="translate(-664.000000, -1341.000000)" fill="#282828"> <g id="s-Image_48-Icons" transform="translate(603.000000, 1182.000000)">  <g id="s-Image_48-Slider-Horizontal-Copy" transform="translate(61.000000, 159.000000)"> <circle id="s-Image_48-Dot-Filled" cx="30.5" cy="3.5" r="3.5" style="fill:#fff !important;"></circle><circle id="s-Image_48-Dot-Filled" cx="17.5" cy="3.5" r="3.5" style="fill:#fff !important;"></circle> <circle id="s-Image_48-Dot-Filled" cx="3.5" cy="3.5" r="3.5" style="fill:#fff !important;"></circle> </g></g> </g></g></svg>
+                            </a>
+                            <div class="dropdown-content-prfl resize-dorpmobile2">
+                                <a class="dropdown-item" href="javascript:void(0)"
+                                (click)="update(antenne)">
+                                    Modifier
+                                    <img src="assets/images/edit.png" alt="" style="height: 17px; float: right;">
+                                </a>
+                                <a href="javascript:void(0)" (click)="deleteItem(antenne.id)" class="dropdown-item">
+                                    Supprimer
+                                    <img src="assets/images/delete-icon.png" alt="" style="height: 17px; float: right;">
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </ng-container>
+
+                <ng-container *ngIf="isLoadingAntenne == false">
+                    <tr>
+                        <td data-title="NOM COMPLET">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Station">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AzimutRadiation">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Elevation">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AntennaType">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AntennaHeigth">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Action" style="white-space: nowrap;">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td data-title="NOM COMPLET">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Station">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AzimutRadiation">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Elevation">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AntennaType">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="AntennaHeigth">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                        <td data-title="Action" style="white-space: nowrap;">
+                            <div class="content-line" style="width: 100%;">
+                                <div class="line"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+
+
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+        <sp-pagination
+            *ngIf="antennes?.length"
+            [config]="config"
+            (onChangePage)="onFilter('PAGE', $event)"
+            ></sp-pagination>
+
+    </div>
+</div>
+
+<app-antenne-modal></app-antenne-modal>
+
+<sp-modal-confirm
+(onConfirm)="onDeleteCollection($event)"
+[id]="deleteCollection.id"
+[message]="deleteCollection.message"
+></sp-modal-confirm>

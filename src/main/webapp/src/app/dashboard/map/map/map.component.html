@@ -1,0 +1,105 @@
+<div class="container-map">
+    <div class="nav1 left_m" id="type_station_list">
+      <!--span>--Liste Station--</span -->
+      <div class="" style="padding: 15px 15px 0px 15px;">
+          <div class="mt-2">
+            <!-- a href="#!" data-toggle="modal" data-target="#newEvent" class="float-right"><span class="bi bi-plus-circle"></span> Ajouter une station</a -->
+            Régions 
+          </div>
+      </div>
+
+      <div class="mt-2 border-top" style="padding: 0px 7px 0px 15px; overflow-y: auto; height: calc(100vh - 100px);">
+        <div class="nav-locality" role="navigation">
+          <ul class="nav__list">
+            <li *ngFor='let region of regions; let i = index'>
+              <input id="group-{{ i }}" type="checkbox" hidden />
+              <label for="group-{{ i }}"><span class="bi bi-chevron-compact-right"></span> <strong>{{ region.name_1 }}</strong></label>
+              <ul class="group-list">
+                <li><a (click)="openSecondPanel(region.id, 'region')" [routerLink]="['/dashboard/map','stations','region', region.id]" [queryParams]="{page: 1, tail: 20}">Stations {{ region.name_1 }}</a></li>
+                <li *ngFor='let departement of region.departement; let j = index'>
+                  <app-departement [departement]="departement"></app-departement>  
+                </li>
+              </ul>
+            </li>
+            <!-- li><a [routerLink]="['/dashboard/map','stations','country', 0]" [queryParams]="{page: 1, tail: 20}"><strong>Toutes les régions</strong></a></li -->
+            <li><a href=""><strong>Toutes les régions</strong></a></li>
+            <li>
+              <div *ngIf="isLoadingRegion == false">
+                <div class="content-line" style="width: 100%;">
+                  <div class="line"></div>
+                </div>
+                <div class="content-line" style="width: 100%;">
+                  <div class="line"></div>
+                </div>
+                <div class="content-line" style="width: 100%;">
+                  <div class="line"></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="position: absolute; bottom: 0px; padding: 10px 15px; background: #fff; width: 100%; border-top: 1px solid #ddd;">
+          <a href="javascript:void(0)" routerLink="/admin/u" *ngIf="currentUser != null && currentUser.role == loadingRoles.adminSystemeRole"><span class="bi bi-gear"></span> Admin</a>
+          <a href="javascript:void(0)" routerLink="/admin/s" *ngIf="currentUser != null && (currentUser.role == loadingRoles.adminOrgRole || currentUser.role == loadingRoles.superAdminOrgRole)"><span class="bi bi-gear"></span> Admin</a>
+          <a href="javascript:void(0)" (click)="logout()" style="float: right;"><span class="bi bi-box-arrow-left" style="color: #BA120A;"></span> Déconnexion</a>
+      </div>
+    </div>
+
+    <div class="nav2 left_m" id="station_list">
+      <div style="margin-left: 300px;">
+
+        <router-outlet></router-outlet>
+        
+      </div>
+    </div>
+
+    <!-- div class="nav1 right_m" id="right">right sidebar</div -->
+    <!-- div class="nav2 right_m" id="right2">right2 sidebar</div -->
+
+  </div>
+
+  <!-- div style="position: fixed; width: 400px; background: #fff; z-index: 9998; height: 100vh; top: 0px; left: 0px; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
+
+  </div -->
+
+  <button class="btn_m open-first-panel" data-component="sidebar" data-target="type_station_list" style="position: fixed; top: 15px; left: 15px; z-index: 900;">
+    <span class="bi bi-list"></span>
+  </button>
+
+  <div style="position: absolute; bottom: 30px; right: 0px; z-index: 10000;">
+    <img src="assets/images/legende.png" alt="">
+  </div>
+
+  <div id="map"></div> 
+  
+  <div class="fixed_bottom">
+      <div id="zoom_value"></div>
+  </div>
+
+  <ngx-loading [show]="isLoadingStation" [config]="loadingConfig"></ngx-loading>
+
+  <div class="coustom_layer_locality">
+    <img src="assets/images/layer_icon_241366.png" alt="" style="height: 30px;">
+      <div class="card_checbox_layer">
+        <h6>Filtres dans {{ currentLocalite.nameLocalite }}</h6>
+        <form action="" class="mt-3">
+          <div *ngFor='let operator of organisations; let j = index'>
+            <label style="display: block;">
+              <span class="badge badge-success float-end">{{ operator.effectif }}</span>
+              <input type="checkbox" checked="" name="operator" id="{{ operator.id }}" value="{{ operator.name }}" (change)="checkValue( $event, map )"> 
+              {{ operator.name }}
+            </label>
+          </div>
+          <div class="text-center">
+              <div class="pt-2" style="border-top: 1px solid #ddd; margin-bottom: -5px;">
+                <a href="" class="btn">Réinitialiser <span class="bi bi-chevron-compact-right"></span></a>
+              </div>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <app-station-modal></app-station-modal>
+

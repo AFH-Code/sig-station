@@ -1,0 +1,223 @@
+
+<!-- new group modal -->
+<div class="modal fade" id="newEvent" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+      <div class="modal-content">
+          <div class="modal-header modaloc-header">
+              <h5 class="modal-title">
+                  {{ typeFormOperation }}
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #333;">
+                  <i class="bi bi-x"></i>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form name="form"
+              (ngSubmit)="onSubmit(f)"
+              #f="ngForm"
+              novalidate>
+                  <div class="form-group">
+                      
+                      <div class="alert-danger" *ngIf="f.submitted && stationName.invalid">
+                        <div *ngIf="form.stationName.errors.required">stationName is required</div>
+                        <div *ngIf="form.stationName.errors.minlength">
+                          stationName must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.stationName.errors.maxlength">  
+                          stationName must be at most 150 characters
+                        </div>
+                      </div>
+                      <label for="stationName" class="col-form-label">Nom de la station</label>
+                      <div class="form-group mb-4">
+                        <input type="text" name="stationName" id="stationName" class="form-control" placeholder="Nom de la station"
+                        [(ngModel)]="form.stationName"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #stationName="ngModel"
+                        />
+                      </div>
+                      
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="alert-danger" *ngIf="f.submitted && latitudeStation.invalid">
+                        <div *ngIf="form.latitudeStation.errors.required">latitudeStation is required</div>
+                      </div>
+                      <div class="alert-danger" *ngIf="f.submitted && longitudeStation.invalid">
+                        <div *ngIf="form.longitudeStation.errors.required">longitudeStation is required</div>
+                      </div>
+                      <label for="group_name" class="col-form-label">Coordonées Géographique</label>
+                    </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+
+                            <input type="number" name="latitudeStation" id="latitudeStation" class="form-control" placeholder="Latitude, ex: 2.144475"
+                            [(ngModel)]="form.latitudeStation"
+                            required
+                            #latitudeStation="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+
+                          <input type="number" name="longitudeStation" id="longitudeStation" class="form-control" placeholder="Longitude, ex: 9.04578"
+                            [(ngModel)]="form.longitudeStation"
+                            required
+                            #longitudeStation="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="typeStation" class="col-form-label">Type de station</label>
+                    <ng-select [items]="deviceObjects" 
+                              bindLabel="name" 
+                              bindValue="id"
+                              [(ngModel)]="form.typeStation"
+                              #typeStation="ngModel"
+                              required
+                              name="typeStation"
+                              (change)="onChangeObj($event)">
+                    </ng-select>
+                  </div>
+                  <div class="form-group">
+                    <label for="group_name" class="col-form-label">Arrondissement</label>
+                    <div class="input-group">
+                      <div class="ng-autocomplete">
+                        <ng-autocomplete 
+                          [data]="arrondissements"
+                          [searchKeyword]="keyword"
+                          placeholder="Sélectionnez un département"
+                          (selected)='selectEvent($event)'
+                          (inputChanged)='onChangeSearch($event)'
+                          [(ngModel)]="form.arrondissementStation"
+                          #arrondissementStation="ngModel"
+                          name="arrondissementStation"
+                          required
+                          (inputFocused)='onFocused($event)'
+                          [itemTemplate]="itemTemplate"
+                          [notFoundTemplate]="notFoundTemplate">                                 
+                        </ng-autocomplete>
+                        
+                        <ng-template #itemTemplate let-item>
+                          <a [innerHTML]="item.name_3"></a>
+                        </ng-template>
+                        
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="group_name" class="col-form-label">Organisation</label>
+                    <div class="input-group">
+                      <div class="ng-autocomplete">
+                        <ng-autocomplete 
+                          [data]="organisations"
+                          [searchKeyword]="keywordName"
+                          placeholder="Sélectionnez une organisation"
+                          (selected)='selectEvent($event)'
+                          (inputChanged)='onChangeSearchOperateur($event)'
+                          [(ngModel)]="form.organisationStation"
+                          #organisationStation="ngModel"
+                          name="organisationStation"
+                          (inputFocused)='onFocused($event)'
+                          [itemTemplate]="itemTemplateName"
+                          [notFoundTemplate]="notFoundTemplate">                                 
+                        </ng-autocomplete>
+                        
+                        <ng-template #itemTemplateName let-item>
+                          <a [innerHTML]="item.ownerName"></a>
+                        </ng-template>
+                        
+                        <ng-template #notFoundTemplate let-notFound>
+                          <div [innerHTML]="notFound"></div>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="alert-danger" *ngIf="f.submitted && serviceRadius.invalid">
+                        <div *ngIf="form.serviceRadius.errors.required">serviceRadius is required</div>
+                      </div>
+                      <div class="alert-danger" *ngIf="f.submitted && heightService.invalid">
+                        <div *ngIf="form.heightService.errors.required">heightService is required</div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Rayon de la station (KM)</label>
+                        <div class="input-group">
+
+                            <input type="text" name="serviceRadius" id="serviceRadius" class="form-control" placeholder="Rayon de la station"
+                            [(ngModel)]="form.serviceRadius"
+                            required
+                            #serviceRadius="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="group_name" class="col-form-label">Hauteur ASL</label>
+                        <div class="input-group">
+
+                            <input type="text" name="heightService" id="heightService" class="form-control" placeholder="Hauteur ASL"
+                            [(ngModel)]="form.heightService"
+                            required
+                            #heightService="ngModel"
+                            />
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                      
+                    <div class="alert-danger" *ngIf="f.submitted && stationType.invalid">
+                      <div *ngIf="form.stationType.errors.required">stationType is required</div>
+                      <div *ngIf="form.stationType.errors.minlength">
+                        stationType must be at least 2 characters
+                      </div>
+                      <div *ngIf="form.stationType.errors.maxlength">  
+                        stationType must be at most 150 characters
+                      </div>
+                    </div>
+                    <label for="stationType" class="col-form-label">Type de la station</label>
+                    <div class="form-group mb-4">
+                      <input type="text" name="stationType" id="stationType" class="form-control" placeholder="Type de la station, ex: GEF"
+                      [(ngModel)]="form.stationType"
+                      required
+                      minlength="2"
+                      maxlength="150"
+                      #stationType="ngModel"
+                      />
+                    </div>
+                </div>
+  
+                  <div class="form-group mt-4">
+                      <button class="btn-principal" [disabled]="f.invalid" style="color: #fff!important; min-width: 100%;">
+                          Publier
+                      </button>
+                  </div>
+  
+                  <div class="form-group mt-3">
+                      <button class="close btn-messenger text-center" data-dismiss="modal" aria-label="Close" style="min-width: 100%; border: 1px solid #3D414B;">
+                          Quitter
+                      </button>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>

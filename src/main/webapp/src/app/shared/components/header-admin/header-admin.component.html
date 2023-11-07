@@ -1,0 +1,15 @@
+<header class="header-admin">
+    <div class="container">
+        <a href="#!" class="logo">SIG</a>
+        <input class="menu-btn" type="checkbox" id="menu-btn" />
+        <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+        <ul class="menu-admin">
+            <li><a href="javascript:void(0)" [routerLink]="['/dashboard/map','stations','country', 0]" [queryParams]="{page: 1, tail: 20}">Map</a></li>
+            <li *ngIf="this.currentUser != null && this.currentUser.role == loadingRoles.adminSystemeRole"><a href="javascript:void(0)" routerLink="/admin/u">Utilisateurs</a></li>
+            <li><a href="javascript:void(0)" routerLink="/admin/s">Stations</a></li>
+            <li><a href="javascript:void(0)" routerLink="/admin/a">Antennes</a></li>
+            <li *ngIf="this.currentUser != null && this.currentUser.role == loadingRoles.adminSystemeRole"><a href="javascript:void(0)" routerLink="/admin/o">Organisations</a></li>
+            <!-- li><a href="javascript:void(0)" routerLink="/admin/u">Equipements</a></li -->
+        </ul>
+    </div>
+</header>

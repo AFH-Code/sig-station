@@ -1,0 +1,153 @@
+<!-- new group modal -->
+<div class="modal fade" id="newEvent" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+      <div class="modal-content">
+          <div class="modal-header modaloc-header">
+              <h5 class="modal-title">
+                  {{ typeFormOperation }}
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: #333;">
+                  <i class="bi bi-x"></i>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form (ngSubmit)="onSubmit(f)"
+              #f="ngForm"
+              novalidate>
+            
+                <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && ownerName.invalid">
+                        <div *ngIf="form.ownerName.errors.required">ownerName is required</div>
+                        <div *ngIf="form.ownerName.errors.minlength">
+                            ownerName must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.ownerName.errors.maxlength">  
+                            ownerName must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="ownerName" class="col-form-label">Nom de l'organisation</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="ownerName" id="ownerName" class="form-control" placeholder="Nom de l'organisation"
+                        [(ngModel)]="form.ownerName"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #ownerName="ngModel"
+                        />
+                    </div>
+
+                </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && ownerAdress.invalid">
+                        <div *ngIf="form.ownerAdress.errors.required">ownerAdress is required</div>
+                        <div *ngIf="form.ownerAdress.errors.minlength">
+                            ownerAdress must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.ownerAdress.errors.maxlength">  
+                            ownerAdress must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="ownerAdress" class="col-form-label">Nom</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="ownerAdress" id="ownerAdress" class="form-control" placeholder="Adresse"
+                        [(ngModel)]="form.ownerAdress"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #ownerAdress="ngModel"
+                        />
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && telephone.invalid">
+                        <div *ngIf="form.telephone.errors.required">telephone is required</div>
+                        <div *ngIf="form.telephone.errors.minlength">
+                            telephone must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.telephone.errors.maxlength">  
+                            telephone must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="telephone" class="col-form-label">Téléphone</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="telephone" id="telephone" class="form-control" placeholder="Téléphone"
+                        [(ngModel)]="form.telephone"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #telephone="ngModel"
+                        />
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && fax.invalid">
+                        <div *ngIf="form.fax.errors.required">fax is required</div>
+                        <div *ngIf="form.fax.errors.minlength">
+                            fax must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.fax.errors.maxlength">  
+                            fax must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="fax" class="col-form-label">Fax</label>
+                    <div class="form-group mb-2">
+                        <input type="text" name="fax" id="fax" class="form-control" placeholder="Fax"
+                        [(ngModel)]="form.fax"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #fax="ngModel"
+                        />
+                    </div>
+
+                  </div>
+
+                  <div class="form-group">
+
+                    <div class="alert-danger" *ngIf="f.submitted && email.invalid">
+                        <div *ngIf="form.email.errors.required">email is required</div>
+                        <div *ngIf="form.email.errors.minlength">
+                            email must be at least 2 characters
+                        </div>
+                        <div *ngIf="form.email.errors.maxlength">  
+                            email must be at most 150 characters
+                        </div>
+                    </div>
+                    <label for="email" class="col-form-label">Email</label>
+                    <div class="form-group mb-2">
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email"
+                        [(ngModel)]="form.email"
+                        required
+                        minlength="2"
+                        maxlength="150"
+                        #email="ngModel"
+                        />
+                    </div>
+
+                  </div>
+  
+                <div class="form-group mt-4">
+                    <button class="btn-principal" [disabled]="f.invalid" style="color: #fff!important; min-width: 100%;">
+                        Publier
+                    </button>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button class="close btn-messenger text-center" data-dismiss="modal" aria-label="Close" style="min-width: 100%; border: 1px solid #3D414B;">
+                        Quitter
+                    </button>
+                </div>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
